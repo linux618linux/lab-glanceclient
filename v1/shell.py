@@ -43,6 +43,8 @@ DISK_FORMATS = ('Acceptable formats: ami, ari, aki, vhd, vmdk, raw, '
 @utils.arg('--disk-format', metavar='<DISK_FORMAT>',
            help='Filter images to those that have this disk format. '
                 + DISK_FORMATS)
+@utils.arg('--parent-id', metavar='<PARENT_ID>',
+           help='Filter images to those that have parent image.')
 @utils.arg('--size-min', metavar='<SIZE>',
            help='Filter images to those with a size greater than this.')
 @utils.arg('--size-max', metavar='<SIZE>',
@@ -76,7 +78,7 @@ DISK_FORMATS = ('Acceptable formats: ami, ari, aki, vhd, vmdk, raw, '
 def do_image_list(gc, args):
     """List images you can access."""
     filter_keys = ['name', 'status', 'container_format', 'disk_format',
-                   'size_min', 'size_max', 'is_public']
+                   'size_min', 'size_max', 'is_public', 'parent_id']
     filter_items = [(key, getattr(args, key)) for key in filter_keys]
     filters = dict([item for item in filter_items if item[1] is not None])
 
@@ -162,6 +164,8 @@ def do_image_download(gc, args):
            help='Container format of image. ' + CONTAINER_FORMATS)
 @utils.arg('--owner', metavar='<TENANT_ID>',
            help='Tenant who should own image.')
+@utils.arg('--parent-id', metavar='<PARENT_ID>',
+           help='the image who relies on a base image')
 @utils.arg('--size', metavar='<SIZE>',
            help=('Size of image data (in bytes). Only used with'
                  ' \'--location\' and \'--copy_from\'.'))
@@ -242,6 +246,8 @@ def do_image_create(gc, args):
            help='Tenant who should own image.')
 @utils.arg('--size', metavar='<SIZE>',
            help='Size of image data (in bytes).')
+@utils.arg('--parent-id', metavar='<PARENT_ID>',
+           help='base image of the images.')
 @utils.arg('--min-disk', metavar='<DISK_GB>',
            help='Minimum size of disk needed to boot image (in gigabytes).')
 @utils.arg('--min-ram', metavar='<DISK_RAM>',

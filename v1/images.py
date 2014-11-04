@@ -27,7 +27,7 @@ UPDATE_PARAMS = ('name', 'disk_format', 'container_format', 'min_disk',
                  #NOTE(bcwaldon: an attempt to update 'deleted' will be
                  # ignored, but we need to support it for backwards-
                  # compatibility with the legacy client library
-                 'deleted')
+                 'deleted', 'parent_id')
 
 CREATE_PARAMS = UPDATE_PARAMS + ('id', 'store')
 
@@ -35,7 +35,7 @@ DEFAULT_PAGE_SIZE = 20
 
 SORT_DIR_VALUES = ('asc', 'desc')
 SORT_KEY_VALUES = ('name', 'status', 'container_format', 'disk_format',
-                   'size', 'id', 'created_at', 'updated_at')
+                   'size', 'id', 'created_at', 'updated_at', 'parent_id')
 
 
 class Image(base.Resource):

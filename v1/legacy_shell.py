@@ -58,7 +58,7 @@ def get_image_filters_from_args(args):
 
     SUPPORTED_FILTERS = ['name', 'disk_format', 'container_format', 'status',
                          'min_ram', 'min_disk', 'size_min', 'size_max',
-                         'changes-since']
+                         'changes-since', 'parent_id']
     filters = {}
     for (key, value) in fields.items():
         if key not in SUPPORTED_FILTERS:
@@ -91,6 +91,7 @@ def print_image_formatted(client, image):
     print("Container format: %s" % getattr(image, 'container_format', ''))
     print("Minimum Ram Required (MB): %s" % image.min_ram)
     print("Minimum Disk Required (GB): %s" % image.min_disk)
+    print("Parent Id: %s" % getattr(image, 'parent_id', ''))
     if hasattr(image, 'owner'):
         print("Owner: %s" % image.owner)
     if len(image.properties) > 0:
@@ -200,7 +201,7 @@ def do_update(gc, args):
 
     base_image_fields = ['disk_format', 'container_format', 'name',
                          'min_disk', 'min_ram', 'location', 'owner',
-                         'copy_from']
+                         'copy_from', 'parent_id']
     for field in base_image_fields:
         fvalue = fields.pop(field, None)
         if fvalue is not None:
@@ -298,7 +299,8 @@ def do_index(gc, args):
                                     image.name,
                                     image.disk_format,
                                     image.container_format,
-                                    image.size))
+                                    image.size,
+                                    image.parent_id))
 
 
 @utils.arg('--limit', dest="limit", metavar="LIMIT", default=10,
